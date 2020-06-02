@@ -6,4 +6,4 @@ Este foi criado com o intuito de atender o post do linkedin.
 
 Mais detalhes ao acessar o link abaixo.
 
-[Post no Linkedin](https://www.linkedin.com)
+[Post no Linkedin](https://www.linkedin.com/posts/nascimentoedmilson_sap-abap-devcommunity-ugcPost-6673369979313786882-GWpw)
