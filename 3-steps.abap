@@ -1,28 +1,4 @@
-*&---------------------------------------------------------------------*
-*& Report YTEST01
-*&---------------------------------------------------------------------*
-*&
-*&---------------------------------------------------------------------*
 REPORT YTEST01.
-
-
-*data date type d value '20190718'.
-*data string type string value '20190718'.
-*
-*data(l_user_format) = |RAW { date date = RAW }|. "RAW, ISO, USER, ENVIRONMENT
-*write:/ l_user_format.
-*
-*l_user_format = |ISO { date date = ISO }|. "RAW, ISO, USER, ENVIRONMENT
-*write:/ l_user_format.
-*
-*l_user_format = |{ conv d( string ) date = USER }|. " 19.10.2022
-*translate l_user_format using './' . " 19/10/2022
-*write:/ l_user_format.
-*
-*l_user_format = |ENVIRONMENT { date date = ENVIRONMENT }|. "RAW, ISO, USER, ENVIRONMENT
-*write:/ l_user_format.
-
-
 
 class class_report definition .
 
@@ -46,21 +22,21 @@ class class_report definition .
       tab_bpa     type table of snwd_bpa, " Address Table
       tab_ad      type table of snwd_ad . " Business Partners
 
-    methods buscar_dados
+    methods search_data
       importing
         !bp_id   type class_report=>range_bp_id
       changing
         !bpa_tab type class_report=>tab_bpa
         !ad_tab  type class_report=>tab_ad .
 
-    methods processar_dados
+    methods process_data
       importing
         !bpa_tab type class_report=>tab_bpa
         !ad_tab  type class_report=>tab_ad
       changing
         !out_tab type class_report=>tab_out .
 
-    methods exibir_informacoes
+    methods display_information
       changing
         !out_tab type class_report=>tab_out .
 
@@ -73,7 +49,7 @@ endclass .
 
 class class_report implementation .
 
-  method buscar_dados .
+  method search_data .
 
     refresh:
       bpa_tab, ad_tab .
@@ -104,7 +80,7 @@ class class_report implementation .
   endmethod .
 
 
-  method processar_dados .
+  method process_data .
 
     data:
       out_line type class_report=>ty_out .
@@ -144,7 +120,7 @@ class class_report implementation .
   endmethod .
 
 
-  method exibir_informacoes .
+  method display_information .
 
     data:
       salv_table type ref to cl_salv_table,
@@ -158,7 +134,7 @@ class class_report implementation .
       try .
 
           cl_salv_table=>factory(
-*             exporting
+*           exporting
 *             list_display = if_salv_c_bool_sap=>true
             importing
               r_salv_table = salv_table
@@ -176,8 +152,7 @@ class class_report implementation .
           salv_table->set_screen_status(
             pfstatus      = 'STANDARD_FULLSCREEN'
             report        = 'SAPLKKBL'
-            set_functions = salv_table->c_functions_all
-          ).
+            set_functions = salv_table->c_functions_all ) .
 
 
 *         Layout de Zebra
@@ -204,7 +179,9 @@ class class_report implementation .
 
 endclass .
 
-* Evento para chamada dos metodos
+*----------------------------------------------------------------------
+*- Events
+*----------------------------------------------------------------------
 initialization .
 
 
@@ -232,7 +209,7 @@ initialization .
 
   if ( alv_report is bound ) .
 
-    alv_report->buscar_dados(
+    alv_report->search_data(
       exporting
         bp_id   = filtro
       changing
@@ -240,7 +217,7 @@ initialization .
         ad_tab  = ad_table
     ).
 
-    alv_report->processar_dados(
+    alv_report->process_data(
       exporting
         bpa_tab = bpa_table
         ad_tab  = ad_table
@@ -248,7 +225,7 @@ initialization .
         out_tab = out_table
     ).
 
-    alv_report->exibir_informacoes(
+    alv_report->display_information(
       changing
         out_tab = out_table
     ).
