@@ -186,14 +186,14 @@ initialization .
 
 
   data:
-    filtro     type class_report=>range_bp_id,
-    alv_report type ref to class_report,
-    bpa_table  type class_report=>tab_bpa,
-    ad_table   type class_report=>tab_ad,
-    out_table  type class_report=>tab_out.
+    gt_filter    type class_report=>range_bp_id,
+    go_alv       type ref to class_report,
+    gt_bpa_table type class_report=>tab_bpa,
+    gt_ad_table  type class_report=>tab_ad,
+    gt_out_table type class_report=>tab_out.
 
 * Essa opcao pode/deve ser substituida por um parametro de selecao
-  filtro =
+  gt_filter =
     value #(
      ( sign = 'I' option = 'EQ' low = '0100000000' )
      ( sign = 'I' option = 'EQ' low = '0100000001' )
@@ -204,30 +204,29 @@ initialization .
     ) .
 
 
-  alv_report = new class_report( ) .
+  go_alv = new class_report( ) .
 
+  if ( go_alv is bound ) .
 
-  if ( alv_report is bound ) .
-
-    alv_report->search_data(
+    go_alv->search_data(
       exporting
-        bp_id   = filtro
+        bp_id   = gt_filter
       changing
-        bpa_tab = bpa_table
-        ad_tab  = ad_table
+        bpa_tab = gt_bpa_table
+        ad_tab  = gt_ad_table
     ).
 
-    alv_report->process_data(
+    go_alv->process_data(
       exporting
-        bpa_tab = bpa_table
-        ad_tab  = ad_table
+        bpa_tab = gt_bpa_table
+        ad_tab  = gt_ad_table
       changing
-        out_tab = out_table
+        out_tab = gt_out_table
     ).
 
-    alv_report->display_information(
+    go_alv->display_information(
       changing
-        out_tab = out_table
+        out_tab = gt_out_table
     ).
 
   endif .
