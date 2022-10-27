@@ -142,20 +142,19 @@ class class_report implementation .
               t_table      = out_tab
           ) .
 
-*         Otimizar largura da columa
+          " Optimize column
           columns = salv_table->get_columns( ) .
           if ( columns is bound ) .
             columns->set_optimize( cl_salv_display_settings=>true ).
           endif .
 
-*         Usando Status
+          " Set Standard status gui
           salv_table->set_screen_status(
             pfstatus      = 'STANDARD_FULLSCREEN'
             report        = 'SAPLKKBL'
             set_functions = salv_table->c_functions_all ) .
 
-
-*         Layout de Zebra
+          " Zebra
           display = salv_table->get_display_settings( ) .
           if ( display is bound ) .
             display->set_striped_pattern( cl_salv_display_settings=>true ) .
