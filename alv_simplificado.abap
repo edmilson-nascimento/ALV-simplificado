@@ -1,6 +1,5 @@
 report alv_simplificado.
 
-
 class class_report definition .
 
   public section .
