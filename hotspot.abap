@@ -1,4 +1,10 @@
-REPORT YTEST01.
+*&---------------------------------------------------------------------*
+*& Report YTESTE
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+report yteste.
+
 
 class class_report definition .
 
@@ -125,6 +131,7 @@ class class_report implementation .
     data:
       salv_table type ref to cl_salv_table,
       columns    type ref to cl_salv_columns_table,
+      column     type ref to cl_salv_column_table,
       display    type ref to cl_salv_display_settings.
 
 
@@ -146,7 +153,17 @@ class class_report implementation .
           columns = salv_table->get_columns( ) .
           if ( columns is bound ) .
             columns->set_optimize( cl_salv_display_settings=>true ).
+
+            " Set Hotpost
+            try .
+                column ?= columns->get_column( 'BP_ID' ) .
+              catch cx_salv_not_found.
+                return .
+            endtry .
+            column->set_cell_type( if_salv_c_cell_type=>hotspot ).
+
           endif .
+
 
           " Set Standard status gui
           salv_table->set_screen_status(
@@ -229,3 +246,52 @@ initialization .
     ).
 
   endif .
+
+
+
+*TYPES : BEGIN OF ty_int,
+*          field1 TYPE i,
+*          field2 TYPE i,
+*          field3 TYPE i,
+*        END OF ty_int.
+*
+*TYPES : tt_int TYPE STANDARD TABLE OF ty_int WITH DEFAULT KEY.
+*
+*DATA : wa_for TYPE ty_int.
+*DATA : wa_for_old TYPE ty_int.
+*DATA : itab_for_old TYPE tt_int.
+*
+**DATA(itab_for) = VALUE tt_int_deep( ( field1 = 10 field2 = 20 field3 = 30  )
+*DATA(itab_for) = VALUE tt_int( ( field1 = 10 field2 = 20 field3 = 30  )
+*                                     ( field1 = 100 field2 = 200 field3 = 300 )
+*                                     ( field1 = 1000 field2 = 2000 field3 = 3000 )
+*                                     ( field1 = 1000 field2 = 3000  field3 = 5000 )
+*                                     ( field1 = 1000 field2 = 5000  field3 = 6000 )
+*                                      ).
+*****Old Syntax
+*
+*DATA : lv_x TYPE i VALUE 3.
+*
+*LOOP AT itab_for INTO wa_for.
+*
+*  wa_for_old-field1 = wa_for-field1.
+*  wa_for_old-field2 = wa_for-field2 * 10.
+*  wa_for_old-field3 = wa_for-field3 * lv_x.
+*
+*  APPEND wa_for_old TO itab_for_old.
+*  CLEAR : wa_for_old.
+*
+*ENDLOOP.
+*
+**** New Syntax - For...Let
+*DATA(itab_for_new) = VALUE tt_int( FOR <lfs_index3> IN itab_for
+*                                       LET x = 3
+**                                       IN field3 = <lfs_index3>-field3 * x
+*                                        IN field3 = x
+*                                      (
+*                                        field1 = <lfs_index3>-field1
+*                                        field2 = <lfs_index3>-field2 * 10
+*                                       )
+*        ).
+
+  break-point .
