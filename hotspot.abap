@@ -1,39 +1,5 @@
-*&---------------------------------------------------------------------*
-*& Report YTESTE
-*&---------------------------------------------------------------------*
-*&
-*&---------------------------------------------------------------------*
-report hostpost.
 
-class class_report definition .
-
-  public section .
-
-    types:
-      begin of ty_out,
-        bp_id         type snwd_bpa-bp_id,
-        company_name  type snwd_bpa-company_name,
-        currency_code type snwd_bpa-currency_code,
-        web_address   type snwd_bpa-web_address,
-        email_address type snwd_bpa-email_address,
-        country       type snwd_ad-country,
-        city          type snwd_ad-city,
-        postal_code   type snwd_ad-postal_code,
-        street        type snwd_ad-street,
-      end of ty_out,
-
-      tab_out     type table of ty_out,
-      range_bp_id type range of snwd_bpa-bp_id,
-      tab_bpa     type table of snwd_bpa, " Address Table
-      tab_ad      type table of snwd_ad . " Business Partners
-
-    methods search_data
-      importing*&---------------------------------------------------------------------*
-*& Report YTESTE
-*&---------------------------------------------------------------------*
-*&
-*&---------------------------------------------------------------------*
-report yteste.
+report hotpost .
 
 
 class class_report definition .
@@ -251,8 +217,6 @@ class class_report implementation .
     endif .
 
   endmethod .
-
-
 
 endclass .
 
