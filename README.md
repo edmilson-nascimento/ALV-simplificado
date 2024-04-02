@@ -1,7 +1,5 @@
 # ALV Simplificado #
 
-[![N|Solid](https://wiki.scn.sap.com/wiki/download/attachments/1710/ABAP%20Development.png?version=1&modificationDate=1446673897000&api=v2)](https://www.sap.com/brazil/developer.html)
-
 ## Versão em português ##
 Este post no LinkedIn foi criado para compartilhar meus conhecimentos e experiência em programação ABAP. Abordarei conceitos de SRP (Single Responsibility Principle) e como eles podem ser aplicados para melhorar a qualidade e manutenabilidade do código. Além disso, disponibilizei uma versão em inglês para ampliar o alcance do conteúdo e acessível para um público mais amplo. Acesse o link abaixo para conferir e não se esqueça de deixar sua opinião ou dúvida nos comentários [Post - Linkedin](https://www.linkedin.com/pulse/sobre-estrutura-de-relat%25C3%25B3rio-alv-edmilson-nascimento-de-jesus/). 
 
